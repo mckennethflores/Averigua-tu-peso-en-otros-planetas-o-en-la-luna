@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Averigua tu Peso</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResultMars,.lastResultJupiter,.lastResultMoon {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Averigua cuanto pesas en otros Planetas? o en la luna</h1>
+
+    <p>Ingresa tu peso entre 1 and 500. y averigua tu peso en otros paises.</p>
+
+    <div class="form">
+      <label for="weightField">Ingresa tu peso: </label><input type="text" id="weightField" class="weightField">
+      <input type="submit" value="Saber peso" class="weightSubmit">
+    </div>
+
+    <div class="resultParas">
+      <p class="lastResultMars"></p>
+      <p class="lastResultJupiter"></p>
+      <p class="lastResultMoon"></p>
+      <p class="lowOrHi"></p>
+    </div>
+
+    <script>
+      let mass;
+      let weightUserMars,weightUserJupiter,weightUserMoon;
+      const gravityLand = 9.8;
+      const gravityMars = 3.711;
+      const gravityJupiter = 24.79;
+      const gravityMoon = 1.622;
+      const lastResultMars = document.querySelector('.lastResultMars');
+      const lastResultJupiter = document.querySelector('.lastResultJupiter');
+      const lastResultMoon = document.querySelector('.lastResultMoon');
+      const lowOrHi = document.querySelector('.lowOrHi');
+      const weightSubmit = document.querySelector('.weightSubmit');
+      const weightField = document.querySelector('.weightField');
+      let resetButton;
+      
+    function checkWeight() {
+        let userWeight = Number(weightField.value);
+        
+        if (userWeight >= 1 && userWeight <=500 ) {
+            mass = userWeight/gravityLand;
+            weightUserMars = (Math.floor((mass*gravityMars) * 100) / 100 );
+            weightUserJupiter = (Math.floor((mass*gravityJupiter) * 100) / 100 );
+            weightUserMoon = (Math.floor((mass*gravityMoon) * 100) / 100 ) ;
+
+            lastResultMars.textContent = 'Tu peso en Marte es: '+weightUserMars+' Kg';
+            lastResultMars.style.backgroundColor = 'brown';
+            lastResultJupiter.textContent = 'Tu peso en Jupiter es: '+weightUserJupiter+' Kg';
+            lastResultJupiter.style.backgroundColor = 'green';
+            lastResultMoon.textContent = 'Tu peso en la Luna es: '+weightUserMoon+' Kg';
+            lastResultMoon.style.backgroundColor = '#555555';
+            ascertainmentFinished();
+        }else{
+
+        }
+    }
+
+    weightSubmit.addEventListener('click', checkWeight);
+
+    function ascertainmentFinished(){
+        weightField.disabled = true;
+        weightSubmit.disabled = true;
+        resetButton = document.createElement('button');
+        resetButton.textContent = 'Volver a Intentarlo';
+        document.body.appendChild(resetButton);
+        resetButton.addEventListener('click',resetAscertainment);
+    }
+
+
+    function resetAscertainment(){
+        const resetParas = document.querySelectorAll('.resultParas p');
+        for(i = 0 ; i < resetParas.lenght ; i++){
+            resetParas[i].textContent = '';
+        }
+
+        resetButton.parentNode.removeChild(resetButton);
+        weightField.disabled = false;
+        weightSubmit.disabled = false;
+        weightField.value = '';
+        weightField.focus();
+        lastResultMars.style.backgroundColor = 'white';
+        lastResultJupiter.style.backgroundColor = 'white';
+        lastResultMoon.style.backgroundColor = 'white';
+    }
+ 
+    </script>
+  </body>
+</html>
+
+<!--
+
+
+1.- Darle al jugador la opcion de ingresar un numero
+2.- Siguiente, Comprobar si el numero esta entre 1k - 500 k
+3.- Si es correcto:
+    1. Mostrar el peso en marte del usuario
+    2.- Mostrar el Peso en la luna del usuario
+    3.- Mostrar un control que le permita al usuario reiniciar todo.
+4.- Si es incorrecto:
+    1.- Decirle al usuario que ingrese un numero comprendido entre 1k - 500k
+    2.- Dejar al usuario intentarlo de nuevo
+5.- Una vez que el juego se reinicia, asegurarse de que la logica del juego y la UI estén completamente
+    restablecidos, volver al paso 1.
+-->
